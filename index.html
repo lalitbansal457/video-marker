@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+
+	    <!--  <link href="http://vjs.zencdn.net/4.2/video-js.css" rel="stylesheet">
+         <link href="videojs.markers.css" rel="stylesheet">
+         <script src="http://vjs.zencdn.net/4.2/video.js"></script>
+         <script src='videojs.markers.js'></script> -->
+
+         <link rel="stylesheet" type="text/css" href="http://vjs.zencdn.net/5.16/video-js.css">
+         <link rel="stylesheet" type="text/css" href="http://www.sampingchuang.com/static/bower_components/videojs-markers/dist/videojs.markers.min.css">
+         
+
+         <script
+  src="https://code.jquery.com/jquery-3.3.1.js"
+  integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+  crossorigin="anonymous"></script>
+         <!-- <script type="text/javascript" src="http://www.sampingchuang.com/static/lib/jquery.js"></script> -->
+         <script type="text/javascript" src="http://www.sampingchuang.com/static/lib/bootstrap-3.3.1/js/bootstrap.min.js"></script>
+         <script type="text/javascript" src="http://vjs.zencdn.net/5.16/video.js"></script>
+         <!-- <script type="text/javascript" src="http://www.sampingchuang.com/static/bower_components/videojs-markers/dist/videojs-markers.js"></script> -->
+         <script type="text/javascript" src="videojs.markers.js"></script>
+
+
+
+         <!-- <script type="text/javascript" src="http://www.sampingchuang.com/static/lib/rainbow/rainbow-custom.min.js"></script>
+         <script type="text/javascript" src="https://api.github.com/repos/spchuang/videojs-markers?callback=callback"></script>
+         <script type="text/javascript" src="https://api.github.com/repos/spchuang/videojs-markers?callback=callback"></script> -->
+</head>
+<body>
+		<video id="test_video" controls preload="none" class="video-js vjs-default-skin" width="640" height="264">
+		         <source src="http://vjs.zencdn.net/v/oceans.mp4" type="video/mp4">
+		         <source src="http://vjs.zencdn.net/v/oceans.webm" type="video/webm">
+		     </video>
+
+
+           <button class="playVideo">Click</button>
+
+
+
+	<script type="text/javascript">
+
+      var markerArr =[
+               {
+                  time: 9.5,
+                  text: "put"
+               },
+               {
+                  time: 16,
+                  text: "any"
+               },
+               {
+                  time: 23.6,
+                  text: "text"
+               },
+               {
+                  time: 28,
+                  text: "here"
+               }
+            ];
+
+      $(document).ready(function(){
+         var player = videojs('test_video');
+
+         //load the marker plugin
+         player.markers({
+            markers: markerArr
+         });
+
+
+         $('.playVideo').click(function(){
+            player.play();
+            player.currentTime(9.5);
+
+            setTimeout(function(){
+                console.log(player.currentTime());
+            }, 2000);
+           
+         })
+
+      })
+
+      function calcJumpTime() {
+          var player = videojs('test_video');
+
+          var currentTime = player.currentTime();
+
+          for(i = 0; i<=markerArr.length; i++) {
+            if(markerArr[i].time >= currentTime) {
+               console.log(' markerArr[i]' ,  markerArr[i])
+               return markerArr[i].time;
+            }
+          }
+
+
+
+
+      }
+
+      function jumpToNext() {
+         var player = videojs('test_video');
+         jumpTime = calcJumpTime();
+         console.log('jumpTime' , jumpTime)
+         player.currentTime(jumpTime);
+      }
+
+      $(document).keydown(function(e){
+
+         var player = videojs('test_video');
+
+
+         if(e.which == "39") {
+            if(!player.paused()) {
+               jumpToNext()
+            }
+            
+         }
+      })
+		
+	</script>
+</body>
+</html>
